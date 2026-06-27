@@ -144,6 +144,6 @@
                       (mu4e-drafts-folder    . "/2e0byo/drafts")
                       (mu4e-refile-folder    . "/2e0byo/archive")
                       (smtpmail-smtp-server  . "smtp.gmail.com")
-                      (user-full-name        . "John Morris" )
-                      (smtpmail-smtp-user    . "2e0byo@gmail.com"))
+                      (smtpmail-smtp-user    . "2e0byo@gmail.com")
+                      (user-full-name        . "John Morris" ))
                     t)
