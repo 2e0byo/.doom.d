@@ -147,3 +147,23 @@
                       (smtpmail-smtp-user    . "2e0byo@gmail.com")
                       (user-full-name        . "John Morris" ))
                     t)
+
+
+(after! mu4e
+  (setq +mu4e-backend nil))
+
+(after! smtpmail
+  (defun smtpmail-try-auth-methods (process supported-extensions _host _port
+                                            &optional _ask-for-password)
+    "Only support oauth2, since nobody uses anything else these days."
+    (if (member 'xoauth2 (cdr-safe (assoc 'auth supported-extensions)))
+        (smtpmail-command-or-throw
+         process
+         (concat
+          "AUTH XOAUTH2 "
+          (string-trim-right
+           (shell-command-to-string
+            (format "email-auth --authstr %s" smtpmail-smtp-user)))))
+      (error (format
+              "I only handle (x)oauth2; server offered: %s"
+              supported-extensions)))))
