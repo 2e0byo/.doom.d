@@ -139,18 +139,57 @@
 
 (set-email-account! "2e0byo"
                     '((mu4e-sent-messages-behavior . delete)
-                      (mu4e-sent-folder      . "/2e0byo/sent")
-                      (mu4e-trash-folder     . "/2e0byo/trash")
-                      (mu4e-drafts-folder    . "/2e0byo/drafts")
-                      (mu4e-refile-folder    . "/2e0byo/archive")
-                      (smtpmail-smtp-server  . "smtp.gmail.com")
-                      (smtpmail-smtp-user    . "2e0byo@gmail.com")
-                      (user-full-name        . "John Morris" ))
+                      (mu4e-sent-folder       . "/2e0byo/sent")
+                      (mu4e-trash-folder      . "/2e0byo/trash")
+                      (mu4e-drafts-folder     . "/2e0byo/drafts")
+                      (mu4e-refile-folder     . "/2e0byo/archive")
+                      (smtpmail-smtp-server   . "smtp.gmail.com")
+                      (smtpmail-smtp-user     . "2e0byo@gmail.com")
+                      (user-full-name         . "John Morris")
+                      (user-mail-address      . "2e0byo@gmail.com")
+                      (mu4e-maildir-shortcuts .
+                                              (("/2e0byo/inbox" .   ?i)
+                                               ("/2e0byo/sent"  .   ?s)
+                                               ("/2e0byo/trash" .   ?t)
+                                               ("/2e0byo/archive" . ?a))))
                     t)
 
+(set-email-account! "thema"
+                    '((mu4e-sent-messages-behavior . delete)
+                      (mu4e-sent-folder       . "/thema/sent")
+                      (mu4e-trash-folder      . "/thema/trash")
+                      (mu4e-drafts-folder     . "/thema/drafts")
+                      (mu4e-refile-folder     . "/thema/archive")
+                      (smtpmail-smtp-server   . "smtp.gmail.com")
+                      (smtpmail-smtp-user     . "john@thema.ai")
+                      (user-full-name         . "John Morris")
+                      (user-mail-address      . "john@thema.ai")
+                      (mu4e-maildir-shortcuts .
+                                              (("/thema/inbox" .   ?i)
+                                               ("/thema/sent"  .   ?s)
+                                               ("/thema/trash" .   ?t)
+                                               ("/thema/archive" . ?a))))
+                    nil)
 
 (after! mu4e
-  (setq +mu4e-backend nil))
+  (setq +mu4e-backend nil)
+  (setq smtpmail-queue-dir  "~/Maildir/queue/cur")
+  (setq mu4e-confirm-quit nil)
+  (setq message-kill-buffer-on-exit t)
+  (setq message-citation-line-format "On %a %d %b %Y at %R, %f wrote:\n")
+  (setq message-citation-line-function 'message-insert-formatted-citation-line)
+
+  (defun 2e0byo/prompt-toggle-mail-sending-mode (orig-fn &rest args)
+    "Make it a bit harder to queue mail by mistake."
+    (if (yes-or-no-p "Toggle mail sending mode?")
+        (progn
+          (apply orig-fn args)
+          (message "Outgoing mail will now be %s"
+                   (if smtpmail-queue-mail "queued" "sent directly")))
+      (message "Ok, leaving it as it was.")))
+
+  (advice-add 'mu4e--main-toggle-mail-sending-mode
+              :around #'2e0byo/prompt-toggle-mail-sending-mode))
 
 (after! smtpmail
   (defun smtpmail-try-auth-methods (process supported-extensions _host _port
