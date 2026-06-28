@@ -73,18 +73,21 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
 (map! :leader
       "SPC" nil
       :desc "M-x" "SPC" #'execute-extended-command)
-(map! :leader
-      :desc "Comment line"   "c l" #'comment-line
-      :desc "Comment region" ";"   #'comment-dwim)
-;; ;; potentially not needed
-;; (with-eval-after-load 'eglot
-;;   (add-to-list 'eglot-server-programs
-;;                '((python-mode python-ts-mode)
-;;                  "basedpyright-langserver" "--stdio")))
 
+(map! :leader
+      "x" nil
+      :desc "Indent / dedent block" :prefix "x" "TAB" #'indent-rigidly)
+
+(map! :leader
+      :desc "Magit status" "g s" #'magit-status)
+
+(map! :leader
+      :desc "Comment line"   "c l"   #'comment-line
+      :desc "Comment region" ";"     #'comment-dwim)
 
 (map! :leader
       :desc "Window left"  "w h" #'evil-window-left
@@ -92,8 +95,9 @@
       :desc "Window up"    "w k" #'evil-window-up
       :desc "Window right" "w l" #'evil-window-right
       :desc "Next window"     "w TAB" #'evil-window-next
-      :desc "Previous window" "w S-TAB" #'evil-window-prev
+      :desc "Previous window" "w S-TAB" #'evil-window-prev)
 
+(map! :leader
       :desc "Split vertical"   "w /" #'evil-window-vsplit
       :desc "Split horizontal" "w -" #'evil-window-split
       :desc "Delete window"    "w d" #'delete-window
@@ -112,8 +116,8 @@
 
       :desc "Select window" "w w" #'ace-window)
 
-(map! :leader
-      "g s" #'magit-status)
+
+
 
 ;; (setq doom-theme 'doom-solarized-dark)
 (setq doom-theme 'solarized-dark)
