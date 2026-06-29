@@ -182,6 +182,7 @@
   (setq message-kill-buffer-on-exit t)
   (setq message-citation-line-format "On %a %d %b %Y at %R, %f wrote:\n")
   (setq message-citation-line-function 'message-insert-formatted-citation-line)
+  (advice-add #'shr-colorize-region :around (defun 2e0byo/shr-no-colourise-region (&rest _ignore)))
 
   (defun 2e0byo/prompt-toggle-mail-sending-mode (orig-fn &rest args)
     "Make it a bit harder to queue mail by mistake."
