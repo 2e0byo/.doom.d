@@ -122,9 +122,6 @@
 
 
 
-;; (setq doom-theme 'doom-solarized-dark)
-(setq doom-theme 'solarized-dark)
-;; (setq solarized-high-contrast-mode-line t)
 (setq x-underline-at-descent-line t)
 (setq doom-themes-enable-bold nil
       doom-themes-enable-italic t)
@@ -133,10 +130,7 @@
         company-minimum-prefix-length 1
         company-selection-wrap-around t
         company-tooltip-align-annotations t))
-;; (after! lsp-pyright
-;;   (setq lsp-pyright-langserver-command "basedpyright"))
 
-;;; Add to $DOOMDIR/config.el
 (with-eval-after-load 'python
   (set-formatter! 'ruff :modes '(python-mode python-ts-mode)))
 
