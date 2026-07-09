@@ -142,6 +142,10 @@
 
 (with-eval-after-load 'python
   (set-eglot-client! '(python-mode python-ts-mode) '("ty" "server")))
+
+(add-hook 'eglot-managed-mode-hook (lambda ()
+                                     (eglot-inlay-hints-mode -1)))
+
 (setq display-line-numbers-type 'relative)
 
 (set-email-account! "2e0byo"
